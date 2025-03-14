@@ -5,7 +5,13 @@ import { Camera, Plus, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Select } from '@/components/ui/select';
+import { 
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue 
+} from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
 
@@ -14,6 +20,7 @@ const AddPetForm = () => {
   const { toast } = useToast();
   const [images, setImages] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
+  const [petType, setPetType] = useState("");
   
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -97,14 +104,18 @@ const AddPetForm = () => {
         
         <div className="space-y-2">
           <Label htmlFor="category">Pet Type</Label>
-          <Select id="category" defaultValue="">
-            <option value="" disabled>Select pet type</option>
-            <option value="dog">Dog</option>
-            <option value="cat">Cat</option>
-            <option value="bird">Bird</option>
-            <option value="fish">Fish</option>
-            <option value="rabbit">Rabbit</option>
-            <option value="other">Other</option>
+          <Select value={petType} onValueChange={setPetType}>
+            <SelectTrigger id="category">
+              <SelectValue placeholder="Select pet type" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="dog">Dog</SelectItem>
+              <SelectItem value="cat">Cat</SelectItem>
+              <SelectItem value="bird">Bird</SelectItem>
+              <SelectItem value="fish">Fish</SelectItem>
+              <SelectItem value="rabbit">Rabbit</SelectItem>
+              <SelectItem value="other">Other</SelectItem>
+            </SelectContent>
           </Select>
         </div>
         
