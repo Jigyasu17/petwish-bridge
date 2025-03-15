@@ -3,12 +3,15 @@ import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, Heart, Plus, User, LogIn } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import { Dialog, DialogContent, DialogTrigger } from './ui/dialog';
+import LoginForm from './LoginForm';
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [loginDialogOpen, setLoginDialogOpen] = useState(false);
   const location = useLocation();
-  const { user, login, logout } = useAuth();
+  const { user, logout, isLoading } = useAuth();
 
   // Track scroll position for header styling
   useEffect(() => {
@@ -53,7 +56,7 @@ const Header = () => {
             <div className="flex items-center gap-4">
               <span className="text-sm text-gray-600">Hello, {user.name}</span>
               <button 
-                onClick={logout}
+                onClick={() => logout()}
                 className="flex items-center gap-1 text-sm font-medium text-gray-700 hover:text-primary"
               >
                 <User size={18} />
@@ -61,13 +64,19 @@ const Header = () => {
               </button>
             </div>
           ) : (
-            <button 
-              onClick={login}
-              className="flex items-center gap-1 text-sm font-medium text-primary hover:text-primary/80"
-            >
-              <LogIn size={18} />
-              <span>Login</span>
-            </button>
+            <Dialog open={loginDialogOpen} onOpenChange={setLoginDialogOpen}>
+              <DialogTrigger asChild>
+                <button 
+                  className="flex items-center gap-1 text-sm font-medium text-primary hover:text-primary/80"
+                >
+                  <LogIn size={18} />
+                  <span>Login</span>
+                </button>
+              </DialogTrigger>
+              <DialogContent className="sm:max-w-md">
+                <LoginForm onClose={() => setLoginDialogOpen(false)} />
+              </DialogContent>
+            </Dialog>
           )}
         </nav>
         
@@ -100,7 +109,7 @@ const Header = () => {
                 <div className="border-t border-gray-100 pt-4 mt-2">
                   <div className="text-sm text-gray-600 mb-2">Signed in as {user.email}</div>
                   <button 
-                    onClick={logout}
+                    onClick={() => logout()}
                     className="w-full py-2 text-sm text-primary font-medium rounded-md border border-primary/20 hover:bg-primary/5"
                   >
                     Sign Out
@@ -108,12 +117,18 @@ const Header = () => {
                 </div>
               </>
             ) : (
-              <button 
-                onClick={login}
-                className="w-full py-3 text-sm font-medium text-white bg-primary rounded-md hover:bg-primary/90"
-              >
-                Sign In
-              </button>
+              <Dialog open={loginDialogOpen} onOpenChange={setLoginDialogOpen}>
+                <DialogTrigger asChild>
+                  <button 
+                    className="w-full py-3 text-sm font-medium text-white bg-primary rounded-md hover:bg-primary/90"
+                  >
+                    Sign In
+                  </button>
+                </DialogTrigger>
+                <DialogContent className="sm:max-w-md">
+                  <LoginForm onClose={() => setLoginDialogOpen(false)} />
+                </DialogContent>
+              </Dialog>
             )}
           </div>
         </div>

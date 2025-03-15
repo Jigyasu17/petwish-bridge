@@ -1,5 +1,6 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import Hero from '../components/Hero';
 import PetGrid from '../components/PetGrid';
 import Footer from '../components/Footer';
@@ -108,6 +109,8 @@ const mockPets: Pet[] = [
 
 const Index = () => {
   const [pets] = useState<Pet[]>(mockPets);
+  const [searchParams] = useSearchParams();
+  const searchQuery = searchParams.get('search') || '';
   
   return (
     <div className="min-h-screen">

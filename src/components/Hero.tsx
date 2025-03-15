@@ -1,9 +1,19 @@
 
-import React from 'react';
-import { Search, ArrowRight } from 'lucide-react';
+import React, { useState } from 'react';
+import { ArrowRight } from 'lucide-react';
 import { CategoryFilter } from './CategoryFilter';
+import SearchPets from './SearchPets';
+import { useNavigate } from 'react-router-dom';
 
 const Hero = () => {
+  const navigate = useNavigate();
+  
+  const handleSearch = (query: string) => {
+    // Add the search query to URL and navigate to home page
+    // This will allow the Index component to pick up the search from URL
+    navigate(`/?search=${encodeURIComponent(query)}`);
+  };
+  
   return (
     <section className="hero-gradient relative pt-32 pb-20 md:pt-40 md:pb-32 overflow-hidden">
       <div className="container mx-auto px-4 md:px-6">
@@ -22,19 +32,13 @@ const Hero = () => {
           
           {/* Search Bar */}
           <div className="max-w-2xl mx-auto relative">
-            <div className="flex items-center mb-8 bg-white rounded-full shadow-lg overflow-hidden">
+            <div className="flex items-center mb-8 overflow-hidden">
               <div className="flex-1 relative">
-                <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
-                <input 
-                  type="text" 
-                  placeholder="Search for dogs, cats, and more..." 
-                  className="w-full py-4 pl-12 pr-4 outline-none text-gray-800"
+                <SearchPets 
+                  onSearch={handleSearch}
+                  placeholder="Search for dogs, cats, and more..."
                 />
               </div>
-              <button className="bg-primary text-white py-4 px-6 font-medium flex items-center gap-2 hover:bg-primary/90 transition-colors">
-                <span>Search</span>
-                <ArrowRight size={18} />
-              </button>
             </div>
             
             {/* Category Filter */}
