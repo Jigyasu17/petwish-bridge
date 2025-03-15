@@ -93,6 +93,11 @@
     background-color: hsl(var(--background));
   }
   
+  /* Define the text-foreground class within the components layer */
+  .text-foreground {
+    color: hsl(var(--foreground));
+  }
+  
   .glass-card {
     @apply bg-white/80 backdrop-blur-md border border-white/20 shadow-lg;
   }
