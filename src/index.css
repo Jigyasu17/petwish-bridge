@@ -88,6 +88,11 @@
     border-color: hsl(var(--border));
   }
   
+  /* Define the bg-background class within the components layer */
+  .bg-background {
+    background-color: hsl(var(--background));
+  }
+  
   .glass-card {
     @apply bg-white/80 backdrop-blur-md border border-white/20 shadow-lg;
   }
