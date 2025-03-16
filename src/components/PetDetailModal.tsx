@@ -16,7 +16,7 @@ interface PetDetailModalProps {
 const PetDetailModal = ({ pet, open, onClose }: PetDetailModalProps) => {
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const { favorites, toggleFavorite } = useFavorites();
-  const { user, login } = useAuth();
+  const { user } = useAuth();
   const isFavorite = favorites.includes(pet.id);
   
   const handleFavoriteClick = () => {
@@ -25,7 +25,8 @@ const PetDetailModal = ({ pet, open, onClose }: PetDetailModalProps) => {
   
   const handleInquiry = () => {
     if (!user) {
-      login();
+      // Instead of calling login without parameters, just inform the user
+      alert('Please sign in to inquire about this pet');
       return;
     }
     // Would normally open a messaging UI
