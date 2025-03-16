@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import Hero from '../components/Hero';
@@ -43,7 +42,7 @@ const mockPets: Pet[] = [
     age: '3 years',
     breed: 'Labrador',
     location: 'New York, NY',
-    category: 'Dogs'
+    category: 'Fish'
   },
   {
     id: '4',
