@@ -40,7 +40,7 @@ const Header = () => {
         {/* Logo */}
         <Link 
           to="/" 
-          className="flex items-center gap-2 font-display text-xl md:text-2xl font-medium"
+          className="flex items-center font-display text-xl md:text-2xl font-medium"
         >
           <span className="text-primary">Ado</span>
           <span>Pet</span>

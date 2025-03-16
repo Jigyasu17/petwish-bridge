@@ -21,19 +21,21 @@ const App = () => (
     <AuthProvider>
       <FavoritesProvider>
         <TooltipProvider>
-          <Toaster />
-          <Sonner />
-          <BrowserRouter>
-            <Header />
-            <AnimatePresence mode="wait">
-              <Routes>
-                <Route path="/" element={<Index />} />
-                <Route path="/add-pet" element={<AddPet />} />
-                <Route path="/favorites" element={<Favorites />} />
-                <Route path="*" element={<NotFound />} />
-              </Routes>
-            </AnimatePresence>
-          </BrowserRouter>
+          <div className="main-background min-h-screen">
+            <Toaster />
+            <Sonner />
+            <BrowserRouter>
+              <Header />
+              <AnimatePresence mode="wait">
+                <Routes>
+                  <Route path="/" element={<Index />} />
+                  <Route path="/add-pet" element={<AddPet />} />
+                  <Route path="/favorites" element={<Favorites />} />
+                  <Route path="*" element={<NotFound />} />
+                </Routes>
+              </AnimatePresence>
+            </BrowserRouter>
+          </div>
         </TooltipProvider>
       </FavoritesProvider>
     </AuthProvider>
