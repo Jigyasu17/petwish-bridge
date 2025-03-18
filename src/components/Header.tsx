@@ -1,11 +1,17 @@
 
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Menu, X, Heart, PlusCircle, Home, LogIn, MapPin } from 'lucide-react';
+import { Menu, X, Heart, PlusCircle, Home, LogIn, MapPin, User } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { Button } from '@/components/ui/button';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { 
+  DropdownMenu, 
+  DropdownMenuContent, 
+  DropdownMenuItem, 
+  DropdownMenuTrigger 
+} from '@/components/ui/dropdown-menu';
 
 const Header = () => {
   const { user, login, logout } = useAuth();
@@ -18,7 +24,7 @@ const Header = () => {
   };
 
   const handleLoginClick = () => {
-    login('demo@example.com', 'password123');
+    navigate('/auth');
   };
 
   const closeMenu = () => {
@@ -29,7 +35,7 @@ const Header = () => {
     <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-gray-100">
       <div className="container mx-auto px-4 md:px-6">
         <div className="flex justify-between items-center h-16">
-          <Link to="/" className="flex items-center gap-2 font-display text-xl font-medium">
+          <Link to="/" className="flex items-center gap-0.5 font-display text-xl font-medium">
             <span className="text-primary">Ado</span>
             <span>Pet</span>
           </Link>
@@ -53,9 +59,28 @@ const Header = () => {
           {/* Auth Button (Desktop) */}
           <div className="hidden md:block">
             {user ? (
-              <Button variant="outline" onClick={logout}>
-                Sign Out
-              </Button>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="outline" className="gap-2">
+                    <User size={18} />
+                    {user.name || 'Account'}
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-56">
+                  <DropdownMenuItem onClick={() => navigate('/dashboard/adopter')}>
+                    Adopter Dashboard
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => navigate('/dashboard/ngo')}>
+                    NGO Dashboard
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => navigate('/dashboard/buyer')}>
+                    Buyer Dashboard
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={logout}>
+                    Sign Out
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
             ) : (
               <Button onClick={handleLoginClick}>
                 <LogIn size={18} className="mr-2" />
@@ -101,9 +126,20 @@ const Header = () => {
                 
                 <div className="pt-3 border-t border-gray-100">
                   {user ? (
-                    <Button className="w-full" variant="outline" onClick={logout}>
-                      Sign Out
-                    </Button>
+                    <div className="space-y-2">
+                      <MobileNavLink to="/dashboard/adopter" icon={<User size={18} />} onClick={closeMenu}>
+                        Adopter Dashboard
+                      </MobileNavLink>
+                      <MobileNavLink to="/dashboard/ngo" icon={<User size={18} />} onClick={closeMenu}>
+                        NGO Dashboard
+                      </MobileNavLink>
+                      <MobileNavLink to="/dashboard/buyer" icon={<User size={18} />} onClick={closeMenu}>
+                        Buyer Dashboard
+                      </MobileNavLink>
+                      <Button className="w-full mt-2" variant="outline" onClick={logout}>
+                        Sign Out
+                      </Button>
+                    </div>
                   ) : (
                     <Button className="w-full" onClick={handleLoginClick}>
                       <LogIn size={18} className="mr-2" />
