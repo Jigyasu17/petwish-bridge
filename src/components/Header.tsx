@@ -5,12 +5,12 @@ import { Menu, X, Heart, PlusCircle, Home, LogIn, MapPin } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { Button } from '@/components/ui/button';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useMobile } from '@/hooks/use-mobile';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 const Header = () => {
-  const { isAuthenticated, login, logout } = useAuth();
+  const { user, login, logout } = useAuth();
   const [menuOpen, setMenuOpen] = useState(false);
-  const isMobile = useMobile();
+  const isMobile = useIsMobile();
   const navigate = useNavigate();
 
   const toggleMenu = () => {
@@ -18,7 +18,7 @@ const Header = () => {
   };
 
   const handleLoginClick = () => {
-    login();
+    login('demo@example.com', 'password123');
   };
 
   const closeMenu = () => {
@@ -52,7 +52,7 @@ const Header = () => {
 
           {/* Auth Button (Desktop) */}
           <div className="hidden md:block">
-            {isAuthenticated ? (
+            {user ? (
               <Button variant="outline" onClick={logout}>
                 Sign Out
               </Button>
@@ -100,7 +100,7 @@ const Header = () => {
                 </MobileNavLink>
                 
                 <div className="pt-3 border-t border-gray-100">
-                  {isAuthenticated ? (
+                  {user ? (
                     <Button className="w-full" variant="outline" onClick={logout}>
                       Sign Out
                     </Button>
