@@ -1,167 +1,152 @@
 
-import React, { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, Heart, Plus, User, LogIn } from 'lucide-react';
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { Menu, X, Heart, PlusCircle, Home, LogIn, MapPin } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
-import { Dialog, DialogContent, DialogTrigger } from './ui/dialog';
-import LoginForm from './LoginForm';
+import { Button } from '@/components/ui/button';
+import { motion, AnimatePresence } from 'framer-motion';
+import { useMobile } from '@/hooks/use-mobile';
 
 const Header = () => {
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [loginDialogOpen, setLoginDialogOpen] = useState(false);
-  const location = useLocation();
-  const { user, logout, isLoading } = useAuth();
+  const { isAuthenticated, login, logout } = useAuth();
+  const [menuOpen, setMenuOpen] = useState(false);
+  const isMobile = useMobile();
+  const navigate = useNavigate();
 
-  // Track scroll position for header styling
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 10);
-    };
-    
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  const toggleMenu = () => {
+    setMenuOpen(!menuOpen);
+  };
 
-  // Close mobile menu when route changes
-  useEffect(() => {
-    setMobileMenuOpen(false);
-  }, [location.pathname]);
+  const handleLoginClick = () => {
+    login();
+  };
+
+  const closeMenu = () => {
+    setMenuOpen(false);
+  };
 
   return (
-    <header 
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled || mobileMenuOpen 
-          ? 'bg-white/90 backdrop-blur-md shadow-sm py-3' 
-          : 'bg-transparent py-5'
-      }`}
-    >
-      <div className="container mx-auto px-4 md:px-6 flex items-center justify-between">
-        {/* Logo */}
-        <Link 
-          to="/" 
-          className="flex items-center font-display text-xl md:text-2xl font-medium"
-        >
-          <span className="text-primary">Ado</span>
-          <span>Pet</span>
-        </Link>
-        
-        {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center space-x-8">
-          <NavLink to="/" active={location.pathname === '/'}>Home</NavLink>
-          <NavLink to="/add-pet" active={location.pathname === '/add-pet'}>Add Pet</NavLink>
-          <NavLink to="/favorites" active={location.pathname === '/favorites'}>Favorites</NavLink>
-          
-          {user ? (
-            <div className="flex items-center gap-4">
-              <span className="text-sm text-gray-600">Hello, {user.name}</span>
-              <button 
-                onClick={() => logout()}
-                className="flex items-center gap-1 text-sm font-medium text-gray-700 hover:text-primary"
-              >
-                <User size={18} />
-                <span>Logout</span>
-              </button>
-            </div>
-          ) : (
-            <Dialog open={loginDialogOpen} onOpenChange={setLoginDialogOpen}>
-              <DialogTrigger asChild>
-                <button 
-                  className="flex items-center gap-1 text-sm font-medium text-primary hover:text-primary/80"
-                >
-                  <LogIn size={18} />
-                  <span>Login</span>
-                </button>
-              </DialogTrigger>
-              <DialogContent className="sm:max-w-md">
-                <LoginForm onClose={() => setLoginDialogOpen(false)} />
-              </DialogContent>
-            </Dialog>
-          )}
-        </nav>
-        
-        {/* Mobile Menu Toggle */}
-        <button 
-          className="md:hidden p-2 rounded-full hover:bg-gray-100"
-          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
-        >
-          {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-        </button>
-      </div>
-      
-      {/* Mobile Menu */}
-      {mobileMenuOpen && (
-        <div className="md:hidden absolute top-full left-0 right-0 bg-white/95 backdrop-blur-md shadow-lg animate-fade-in">
-          <div className="container mx-auto px-4 py-4 flex flex-col space-y-4">
-            <MobileNavLink to="/" active={location.pathname === '/'}>Home</MobileNavLink>
-            <MobileNavLink to="/add-pet" active={location.pathname === '/add-pet'}>
-              <Plus size={18} />
-              <span>Add Pet</span>
-            </MobileNavLink>
-            <MobileNavLink to="/favorites" active={location.pathname === '/favorites'}>
-              <Heart size={18} />
-              <span>Favorites</span>
-            </MobileNavLink>
-            
-            {user ? (
-              <>
-                <div className="border-t border-gray-100 pt-4 mt-2">
-                  <div className="text-sm text-gray-600 mb-2">Signed in as {user.email}</div>
-                  <button 
-                    onClick={() => logout()}
-                    className="w-full py-2 text-sm text-primary font-medium rounded-md border border-primary/20 hover:bg-primary/5"
-                  >
-                    Sign Out
-                  </button>
-                </div>
-              </>
+    <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-gray-100">
+      <div className="container mx-auto px-4 md:px-6">
+        <div className="flex justify-between items-center h-16">
+          <Link to="/" className="flex items-center gap-2 font-display text-xl font-medium">
+            <span className="text-primary">Ado</span>
+            <span>Pet</span>
+          </Link>
+
+          {/* Desktop Nav */}
+          <nav className="hidden md:flex gap-6 items-center">
+            <NavLink to="/" icon={<Home size={18} />}>
+              Home
+            </NavLink>
+            <NavLink to="/ngo-finder" icon={<MapPin size={18} />}>
+              NGO Finder
+            </NavLink>
+            <NavLink to="/favorites" icon={<Heart size={18} />}>
+              Favorites
+            </NavLink>
+            <NavLink to="/add-pet" icon={<PlusCircle size={18} />}>
+              Add a Pet
+            </NavLink>
+          </nav>
+
+          {/* Auth Button (Desktop) */}
+          <div className="hidden md:block">
+            {isAuthenticated ? (
+              <Button variant="outline" onClick={logout}>
+                Sign Out
+              </Button>
             ) : (
-              <Dialog open={loginDialogOpen} onOpenChange={setLoginDialogOpen}>
-                <DialogTrigger asChild>
-                  <button 
-                    className="w-full py-3 text-sm font-medium text-white bg-primary rounded-md hover:bg-primary/90"
-                  >
-                    Sign In
-                  </button>
-                </DialogTrigger>
-                <DialogContent className="sm:max-w-md">
-                  <LoginForm onClose={() => setLoginDialogOpen(false)} />
-                </DialogContent>
-              </Dialog>
+              <Button onClick={handleLoginClick}>
+                <LogIn size={18} className="mr-2" />
+                Sign In
+              </Button>
             )}
           </div>
+
+          {/* Mobile Menu Toggle */}
+          <button
+            className="md:hidden text-gray-600 hover:text-gray-900 focus:outline-none"
+            onClick={toggleMenu}
+            aria-label={menuOpen ? "Close menu" : "Open menu"}
+          >
+            {menuOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
         </div>
-      )}
+      </div>
+
+      {/* Mobile Menu */}
+      <AnimatePresence>
+        {menuOpen && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            className="md:hidden border-t border-gray-100 bg-white"
+          >
+            <div className="container mx-auto px-4 py-4">
+              <nav className="flex flex-col space-y-3">
+                <MobileNavLink to="/" icon={<Home size={18} />} onClick={closeMenu}>
+                  Home
+                </MobileNavLink>
+                <MobileNavLink to="/ngo-finder" icon={<MapPin size={18} />} onClick={closeMenu}>
+                  NGO Finder
+                </MobileNavLink>
+                <MobileNavLink to="/favorites" icon={<Heart size={18} />} onClick={closeMenu}>
+                  Favorites
+                </MobileNavLink>
+                <MobileNavLink to="/add-pet" icon={<PlusCircle size={18} />} onClick={closeMenu}>
+                  Add a Pet
+                </MobileNavLink>
+                
+                <div className="pt-3 border-t border-gray-100">
+                  {isAuthenticated ? (
+                    <Button className="w-full" variant="outline" onClick={logout}>
+                      Sign Out
+                    </Button>
+                  ) : (
+                    <Button className="w-full" onClick={handleLoginClick}>
+                      <LogIn size={18} className="mr-2" />
+                      Sign In
+                    </Button>
+                  )}
+                </div>
+              </nav>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </header>
   );
 };
 
-const NavLink = ({ to, active, children }: { to: string; active: boolean; children: React.ReactNode }) => (
-  <Link 
-    to={to} 
-    className={`relative text-sm font-medium ${
-      active 
-        ? 'text-primary' 
-        : 'text-gray-700 hover:text-primary'
-    }`}
+const NavLink = ({ to, icon, children }: { to: string; icon: React.ReactNode; children: React.ReactNode }) => (
+  <Link
+    to={to}
+    className="flex items-center gap-2 text-gray-600 hover:text-primary transition-colors py-2"
   >
+    {icon}
     {children}
-    {active && (
-      <span className="absolute -bottom-1 left-0 right-0 h-0.5 bg-primary rounded-full" />
-    )}
   </Link>
 );
 
-const MobileNavLink = ({ to, active, children }: { to: string; active: boolean; children: React.ReactNode }) => (
-  <Link 
-    to={to} 
-    className={`flex items-center gap-2 py-3 px-2 rounded-md ${
-      active 
-        ? 'text-primary bg-primary/5 font-medium' 
-        : 'text-gray-700 hover:bg-gray-50'
-    }`}
+const MobileNavLink = ({
+  to,
+  icon,
+  onClick,
+  children,
+}: {
+  to: string;
+  icon: React.ReactNode;
+  onClick: () => void;
+  children: React.ReactNode;
+}) => (
+  <Link
+    to={to}
+    className="flex items-center gap-2 text-gray-600 hover:text-primary transition-colors py-2"
+    onClick={onClick}
   >
+    {icon}
     {children}
   </Link>
 );

@@ -10,6 +10,7 @@ import Header from "./components/Header";
 import Index from "./pages/Index";
 import AddPet from "./pages/AddPet";
 import Favorites from "./pages/Favorites";
+import NGOFinder from "./pages/NGOFinder";
 import NotFound from "./pages/NotFound";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -31,6 +32,7 @@ const App = () => (
                   <Route path="/" element={<Index />} />
                   <Route path="/add-pet" element={<AddPet />} />
                   <Route path="/favorites" element={<Favorites />} />
+                  <Route path="/ngo-finder" element={<NGOFinder />} />
                   <Route path="*" element={<NotFound />} />
                 </Routes>
               </AnimatePresence>
