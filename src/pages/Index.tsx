@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import Hero from '../components/Hero';
@@ -109,7 +110,36 @@ const mockPets: Pet[] = [
 const Index = () => {
   const [pets] = useState<Pet[]>(mockPets);
   const [searchParams] = useSearchParams();
+  const [filteredPets, setFilteredPets] = useState<Pet[]>(mockPets);
+  
+  // Get search query and category from URL params
   const searchQuery = searchParams.get('search') || '';
+  const categoryFilter = searchParams.get('category') || '';
+  
+  // Filter pets when search query or category changes
+  useEffect(() => {
+    let filtered = [...pets];
+    
+    // Apply search filter if exists
+    if (searchQuery) {
+      const lowercaseQuery = searchQuery.toLowerCase();
+      filtered = filtered.filter(pet => 
+        pet.name.toLowerCase().includes(lowercaseQuery) ||
+        pet.breed.toLowerCase().includes(lowercaseQuery) ||
+        pet.category.toLowerCase().includes(lowercaseQuery) ||
+        pet.location.toLowerCase().includes(lowercaseQuery)
+      );
+    }
+    
+    // Apply category filter if exists
+    if (categoryFilter) {
+      filtered = filtered.filter(pet => 
+        pet.category.toLowerCase() === categoryFilter.toLowerCase()
+      );
+    }
+    
+    setFilteredPets(filtered);
+  }, [pets, searchQuery, categoryFilter]);
   
   return (
     <div className="min-h-screen">
@@ -138,7 +168,7 @@ const Index = () => {
             </div>
           </div>
           
-          <PetGrid pets={pets} />
+          <PetGrid pets={filteredPets} />
           
           <div className="mt-12 text-center">
             <button className="px-8 py-3 border border-primary text-primary rounded-full hover:bg-primary/5 font-medium transition-colors">

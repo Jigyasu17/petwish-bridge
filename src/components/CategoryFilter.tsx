@@ -18,8 +18,21 @@ const categories: Category[] = [
   { id: 'other', name: 'Other', icon: Plus },
 ];
 
-export const CategoryFilter = () => {
+interface CategoryFilterProps {
+  onSelectCategory?: (category: string | null) => void;
+}
+
+export const CategoryFilter = ({ onSelectCategory }: CategoryFilterProps) => {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+
+  const handleCategoryClick = (categoryId: string) => {
+    const newSelectedCategory = selectedCategory === categoryId ? null : categoryId;
+    setSelectedCategory(newSelectedCategory);
+    
+    if (onSelectCategory) {
+      onSelectCategory(newSelectedCategory);
+    }
+  };
 
   return (
     <div className="flex flex-wrap justify-center gap-2 md:gap-4">
@@ -28,9 +41,7 @@ export const CategoryFilter = () => {
           key={category.id}
           category={category}
           isSelected={selectedCategory === category.id}
-          onClick={() => setSelectedCategory(
-            selectedCategory === category.id ? null : category.id
-          )}
+          onClick={() => handleCategoryClick(category.id)}
         />
       ))}
     </div>

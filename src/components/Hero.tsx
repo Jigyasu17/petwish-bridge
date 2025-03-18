@@ -10,8 +10,16 @@ const Hero = () => {
   
   const handleSearch = (query: string) => {
     // Add the search query to URL and navigate to home page
-    // This will allow the Index component to pick up the search from URL
     navigate(`/?search=${encodeURIComponent(query)}`);
+  };
+  
+  const handleCategorySelect = (category: string | null) => {
+    // Navigate with the selected category
+    if (category) {
+      navigate(`/?category=${encodeURIComponent(category)}`);
+    } else {
+      navigate('/');
+    }
   };
   
   return (
@@ -42,7 +50,7 @@ const Hero = () => {
             </div>
             
             {/* Category Filter */}
-            <CategoryFilter />
+            <CategoryFilter onSelectCategory={handleCategorySelect} />
           </div>
         </div>
         

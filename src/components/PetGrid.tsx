@@ -4,6 +4,7 @@ import PetCard, { Pet } from './PetCard';
 import PetDetailModal from './PetDetailModal';
 import SearchPets from './SearchPets';
 import { Search, Dog, Cat, Fish, PawPrint } from 'lucide-react';
+import { useSearchParams } from 'react-router-dom';
 
 interface PetGridProps {
   pets: Pet[];
@@ -13,12 +14,14 @@ const PetGrid = ({ pets }: PetGridProps) => {
   const [selectedPet, setSelectedPet] = useState<Pet | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [filteredPets, setFilteredPets] = useState<Pet[]>(pets);
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchQuery, setSearchQuery] = useState(searchParams.get('search') || '');
 
-  // Update filtered pets when the main pet list changes
+  // Update filtered pets when the main pet list or search query changes
   useEffect(() => {
     setFilteredPets(pets);
-  }, [pets]);
+    setSearchQuery(searchParams.get('search') || '');
+  }, [pets, searchParams]);
 
   const openModal = (pet: Pet) => {
     setSelectedPet(pet);
@@ -28,20 +31,39 @@ const PetGrid = ({ pets }: PetGridProps) => {
   const handleSearch = (query: string) => {
     setSearchQuery(query);
     
-    if (!query.trim()) {
-      setFilteredPets(pets);
-      return;
+    if (query.trim()) {
+      // Update URL with search query
+      setSearchParams(prev => {
+        const newParams = new URLSearchParams(prev);
+        newParams.set('search', query);
+        return newParams;
+      });
+    } else {
+      // Remove search param if query is empty
+      setSearchParams(prev => {
+        const newParams = new URLSearchParams(prev);
+        newParams.delete('search');
+        return newParams;
+      });
     }
-    
-    const lowercaseQuery = query.toLowerCase();
-    const results = pets.filter(pet => 
-      pet.name.toLowerCase().includes(lowercaseQuery) ||
-      pet.breed.toLowerCase().includes(lowercaseQuery) ||
-      pet.category.toLowerCase().includes(lowercaseQuery) ||
-      pet.location.toLowerCase().includes(lowercaseQuery)
-    );
-    
-    setFilteredPets(results);
+  };
+  
+  const handleCategoryFilter = (category: string) => {
+    if (category.toLowerCase() === 'all pets') {
+      // Clear category filter
+      setSearchParams(prev => {
+        const newParams = new URLSearchParams(prev);
+        newParams.delete('category');
+        return newParams;
+      });
+    } else {
+      // Set category filter
+      setSearchParams(prev => {
+        const newParams = new URLSearchParams(prev);
+        newParams.set('category', category.toLowerCase());
+        return newParams;
+      });
+    }
   };
   
   // Get pet type icon
@@ -66,6 +88,8 @@ const PetGrid = ({ pets }: PetGridProps) => {
     { name: 'All Pets', icon: <PawPrint size={18} /> }
   ];
 
+  const currentCategory = searchParams.get('category') || '';
+
   return (
     <>
       <div className="mb-8 space-y-4">
@@ -78,12 +102,10 @@ const PetGrid = ({ pets }: PetGridProps) => {
           {quickFilters.map((filter) => (
             <button
               key={filter.name}
-              onClick={() => filter.name === 'All Pets' 
-                ? handleSearch('') 
-                : handleSearch(filter.name.toLowerCase())}
+              onClick={() => handleCategoryFilter(filter.name)}
               className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm ${
-                (filter.name.toLowerCase() === searchQuery.toLowerCase() || 
-                (filter.name === 'All Pets' && !searchQuery))
+                (filter.name.toLowerCase() === currentCategory.toLowerCase() || 
+                (filter.name === 'All Pets' && !currentCategory))
                   ? 'bg-primary text-white'
                   : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
               }`}
