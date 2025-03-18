@@ -18,10 +18,10 @@ const Footer = () => {
               Connecting loving homes with pets in need since 2023. Every adoption makes a difference.
             </p>
             <div className="flex space-x-4">
-              <SocialLink icon={Instagram} href="#" ariaLabel="Follow us on Instagram" />
-              <SocialLink icon={Twitter} href="#" ariaLabel="Follow us on Twitter" />
-              <SocialLink icon={Facebook} href="#" ariaLabel="Follow us on Facebook" />
-              <SocialLink icon={Youtube} href="#" ariaLabel="Subscribe to our YouTube channel" />
+              <SocialLink icon={Instagram} href="https://instagram.com" ariaLabel="Follow us on Instagram" />
+              <SocialLink icon={Twitter} href="https://twitter.com" ariaLabel="Follow us on Twitter" />
+              <SocialLink icon={Facebook} href="https://facebook.com" ariaLabel="Follow us on Facebook" />
+              <SocialLink icon={Youtube} href="https://youtube.com" ariaLabel="Subscribe to our YouTube channel" />
             </div>
           </div>
           
@@ -29,33 +29,33 @@ const Footer = () => {
           <div>
             <h3 className="font-medium text-gray-900 mb-4">Adopt</h3>
             <ul className="space-y-3">
-              <FooterLink href="#">Find a Pet</FooterLink>
-              <FooterLink href="#">Dogs</FooterLink>
-              <FooterLink href="#">Cats</FooterLink>
-              <FooterLink href="#">Other Animals</FooterLink>
-              <FooterLink href="#">Adoption Process</FooterLink>
+              <FooterLink to="/">Find a Pet</FooterLink>
+              <FooterLink to="/?category=dogs">Dogs</FooterLink>
+              <FooterLink to="/?category=cats">Cats</FooterLink>
+              <FooterLink to="/?category=other">Other Animals</FooterLink>
+              <FooterLink to="/adoption-process">Adoption Process</FooterLink>
             </ul>
           </div>
           
           <div>
             <h3 className="font-medium text-gray-900 mb-4">Resources</h3>
             <ul className="space-y-3">
-              <FooterLink href="#">Pet Care Tips</FooterLink>
-              <FooterLink href="#">Training Guides</FooterLink>
-              <FooterLink href="#">Health & Nutrition</FooterLink>
-              <FooterLink href="#">Success Stories</FooterLink>
-              <FooterLink href="#">Blog</FooterLink>
+              <FooterLink to="/pet-care">Pet Care Tips</FooterLink>
+              <FooterLink to="/training">Training Guides</FooterLink>
+              <FooterLink to="/health">Health & Nutrition</FooterLink>
+              <FooterLink to="/success-stories">Success Stories</FooterLink>
+              <FooterLink to="/blog">Blog</FooterLink>
             </ul>
           </div>
           
           <div>
             <h3 className="font-medium text-gray-900 mb-4">Company</h3>
             <ul className="space-y-3">
-              <FooterLink href="#">About Us</FooterLink>
-              <FooterLink href="#">Partner Shelters</FooterLink>
-              <FooterLink href="#">Volunteer</FooterLink>
-              <FooterLink href="#">Careers</FooterLink>
-              <FooterLink href="#">Contact Us</FooterLink>
+              <FooterLink to="/about">About Us</FooterLink>
+              <FooterLink to="/partners">Partner Shelters</FooterLink>
+              <FooterLink to="/volunteer">Volunteer</FooterLink>
+              <FooterLink to="/careers">Careers</FooterLink>
+              <FooterLink to="/contact">Contact Us</FooterLink>
             </ul>
           </div>
         </div>
@@ -66,9 +66,9 @@ const Footer = () => {
               &copy; {new Date().getFullYear()} AdoPet. All rights reserved.
             </p>
             <div className="flex flex-wrap justify-center gap-4 text-sm text-gray-500">
-              <Link to="#" className="hover:text-gray-700">Privacy Policy</Link>
-              <Link to="#" className="hover:text-gray-700">Terms of Service</Link>
-              <Link to="#" className="hover:text-gray-700">Cookie Policy</Link>
+              <Link to="/privacy" className="hover:text-gray-700">Privacy Policy</Link>
+              <Link to="/terms" className="hover:text-gray-700">Terms of Service</Link>
+              <Link to="/cookies" className="hover:text-gray-700">Cookie Policy</Link>
             </div>
           </div>
           <div className="text-center mt-6 text-sm text-gray-400 flex items-center justify-center">
@@ -94,11 +94,11 @@ const SocialLink = ({ icon: Icon, href, ariaLabel }: { icon: React.ElementType; 
   </a>
 );
 
-const FooterLink = ({ href, children }: { href: string; children: React.ReactNode }) => (
+const FooterLink = ({ to, children }: { to: string; children: React.ReactNode }) => (
   <li>
-    <a href={href} className="text-gray-600 hover:text-primary text-sm transition-colors">
+    <Link to={to} className="text-gray-600 hover:text-primary text-sm transition-colors">
       {children}
-    </a>
+    </Link>
   </li>
 );
 
