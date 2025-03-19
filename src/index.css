@@ -1,4 +1,3 @@
-
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
 @tailwind base;
@@ -16,7 +15,7 @@
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
 
-    --primary: 213.1 94% 68%;
+    --primary: 47 100% 50%;    /* #FFD200 */
     --primary-foreground: 210 40% 98%;
 
     --secondary: 210 40% 96.1%;
@@ -25,7 +24,7 @@
     --muted: 210 40% 96.1%;
     --muted-foreground: 215.4 16.3% 46.9%;
 
-    --accent: 210 40% 96.1%;
+    --accent: 47 100% 50%;     /* #FFD200 */
     --accent-foreground: 222.2 47.4% 11.2%;
 
     --destructive: 0 84.2% 60.2%;
@@ -33,7 +32,7 @@
 
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
-    --ring: 213.1 94% 68%;
+    --ring: 47 100% 50%;       /* #FFD200 */
 
     --radius: 1rem;
   }
@@ -46,9 +45,9 @@
     @apply bg-background text-foreground;
     font-feature-settings: "rlig" 1, "calt" 1;
     background-image: 
-      url("data:image/svg+xml,%3Csvg width='52' height='26' viewBox='0 0 52 26' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%2392d4f7' fill-opacity='0.1'%3E%3Cpath d='M10 10c0-2.21-1.79-4-4-4-3.314 0-6-2.686-6-6h2c0 2.21 1.79 4 4 4 3.314 0 6 2.686 6 6 0 2.21 1.79 4 4 4 3.314 0 6 2.686 6 6 0 2.21 1.79 4 4 4v2c-3.314 0-6-2.686-6-6 0-2.21-1.79-4-4-4-3.314 0-6-2.686-6-6zm25.464-1.95l8.486 8.486-1.414 1.414-8.486-8.486 1.414-1.414z' /%3E%3C/g%3E%3C/g%3E%3C/svg%3E"),
-      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cg fill-rule='evenodd'%3E%3Cg id='church-on-sunday' fill='%23ffd1dc' fill-opacity='0.1'%3E%3Cpath d='M77.17 0H80v2.83l-.1.1A39.9 39.9 0 0 1 74.64 20a39.9 39.9 0 0 1 5.24 17.06l.11.11v2.89c-.01 6.9-1.8 13.79-5.35 19.94A39.96 39.96 0 0 1 80 79.94V80h-2.83L66.84 69.66a39.83 39.83 0 0 1-24.1 10.25l.09.09h-5.66l.1-.1c-8.7-.58-17.22-4-24.1-10.23L2.82 80H0v-.06c.01-6.9 1.8-13.8 5.35-19.94A39.96 39.96 0 0 1 0 40.06V37.17l.1-.1A39.9 39.9 0 0 1 5.36 20 39.9 39.9 0 0 1 .1 2.94L0 2.83V0h2.83l-.1.1a39.83 39.83 0 0 1 24.1 10.24L37.17 0H40c0 6.92-1.78 13.83-5.35 20A39.96 39.96 0 0 1 40 60c0-6.92 1.78-13.83 5.35-20A39.96 39.96 0 0 1 40 20h-2.83l.1.1a39.83 39.83 0 0 1-24.1 10.24L.1 17.17 0 14.33V12h5.7l2.83-2.83-1.42-1.41L0 9.34V6.51l1.42-1.41L4.24 0zm.07 80H77.2L81 76.12c-9.42 5.4-21.52 6.94-32.76 3.99-11.26 2.93-23.39 1.45-32.76-3.99LFM20.02 80h2.83l.1-.1a39.83 39.83 0 0 1 24.1-10.24L57.17 80h-4.82zm17.48-22l-2.83 2.83 1.41 1.41 2.83-2.83-1.41-1.41zM69.24 35.83l1.41-1.41-2.82-2.82-1.42 1.41 2.83 2.82zm-36.52-2.83l-1.42-1.41-2.82 2.82 1.41 1.41 2.83-2.82zm15.76 8.48l-1.41 1.41 2.82 2.82 1.42-1.41-2.83-2.82zm-29.13 2.83l2.83 2.82 1.41-1.41-2.82-2.82-1.42 1.41zm21.91 8.49l1.41 1.4 2.83-2.82-1.41-1.41-2.83 2.83zm-8.48-2.82l-2.83 2.82 1.42 1.4 2.82-2.81-1.41-1.41zM49.96 78.2l-1.42 1.4.1.1h2.83L49.96 78.2z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E"),
-      linear-gradient(109.6deg, rgba(223,234,247,1) 11.2%, rgba(244,248,252,1) 91.1%);
+      url("data:image/svg+xml,%3Csvg width='52' height='26' viewBox='0 0 52 26' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffd200' fill-opacity='0.1'%3E%3Cpath d='M10 10c0-2.21-1.79-4-4-4-3.314 0-6-2.686-6-6h2c0 2.21 1.79 4 4 4 3.314 0 6 2.686 6 6 0 2.21 1.79 4 4 4 3.314 0 6 2.686 6 6 0 2.21 1.79 4 4 4v2c-3.314 0-6-2.686-6-6 0-2.21-1.79-4-4-4-3.314 0-6-2.686-6-6zm25.464-1.95l8.486 8.486-1.414 1.414-8.486-8.486 1.414-1.414z' /%3E%3C/g%3E%3C/g%3E%3C/svg%3E"),
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cg fill-rule='evenodd'%3E%3Cg id='church-on-sunday' fill='%23ffd200' fill-opacity='0.1'%3E%3Cpath d='M77.17 0H80v2.83l-.1.1A39.9 39.9 0 0 1 74.64 20a39.9 39.9 0 0 1 5.24 17.06l.11.11v2.89c-.01 6.9-1.8 13.79-5.35 19.94A39.96 39.96 0 0 1 80 79.94V80h-2.83L66.84 69.66a39.83 39.83 0 0 1-24.1 10.25l.09.09h-5.66l.1-.1c-8.7-.58-17.22-4-24.1-10.23L2.82 80H0v-.06c.01-6.9 1.8-13.8 5.35-19.94A39.96 39.96 0 0 1 0 40.06V37.17l.1-.1A39.9 39.9 0 0 1 5.36 20 39.9 39.9 0 0 1 .1 2.94L0 2.83V0h2.83l-.1.1a39.83 39.83 0 0 1 24.1 10.24L37.17 0H40c0 6.92-1.78 13.83-5.35 20A39.96 39.96 0 0 1 40 60c0-6.92 1.78-13.83 5.35-20A39.96 39.96 0 0 1 40 20h-2.83l.1.1a39.83 39.83 0 0 1-24.1 10.24L.1 17.17 0 14.33V12h5.7l2.83-2.83-1.42-1.41L0 9.34V6.51l1.42-1.41L4.24 0zm.07 80H77.2L81 76.12c-9.42 5.4-21.52 6.94-32.76 3.99-11.26 2.93-23.39 1.45-32.76-3.99LFM20.02 80h2.83l.1-.1a39.83 39.83 0 0 1 24.1-10.24L57.17 80h-4.82zm17.48-22l-2.83 2.83 1.41 1.41 2.83-2.83-1.41-1.41zM69.24 35.83l1.41-1.41-2.82-2.82-1.42 1.41 2.83 2.82zm-36.52-2.83l-1.42-1.41-2.82 2.82 1.41 1.41 2.83-2.82zm15.76 8.48l-1.41 1.41 2.82 2.82 1.42-1.41-2.83-2.82zm-29.13 2.83l2.83 2.82 1.41-1.41-2.82-2.82-1.42 1.41zm21.91 8.49l1.41 1.4 2.83-2.82-1.41-1.41-2.83 2.83zm-8.48-2.82l-2.83 2.82 1.42 1.4 2.82-2.81-1.41-1.41zM49.96 78.2l-1.42 1.4.1.1h2.83L49.96 78.2z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E"),
+      linear-gradient(109.6deg, rgba(255,255,255,1) 11.2%, rgba(250,250,250,1) 91.1%);
     background-size: 60px 60px, 120px 120px, 100% 100%;
     background-position: 0 0, 30px 30px, 0 0;
     background-attachment: fixed;
@@ -106,12 +105,12 @@
   }
   
   .glass-card {
-    @apply bg-white/80 backdrop-blur-md border border-white/20 shadow-lg;
+    @apply bg-white/90 backdrop-blur-md border border-white/20 shadow-lg;
   }
   
   .hero-gradient {
     background: linear-gradient(to right, rgba(255,255,255,0.9), rgba(255,255,255,0.7)), 
-      url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23f0f9ff' fill-opacity='0.4'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+      url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffd200' fill-opacity='0.4'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
   }
 
   .pet-card {
@@ -159,7 +158,7 @@
     background: 
       linear-gradient(109.6deg, rgba(223,234,247,0.8) 11.2%, rgba(244,248,252,0.8) 91.1%),
       url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 24 24' fill='none' stroke='%23a9d0f5' stroke-width='1' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 11c0 2.21 1.79 4 4 4s4-1.79 4-4v-1l5 5v-2c0-2.21-1.79-4-4-4s-4 1.79-4 4v1L3 9v2z'%3E%3C/path%3E%3Cpath d='M13 20l1 4' /%3E%3Cpath d='M10 20c1-1 2-2 2-3v-2'/%3E%3C/svg%3E"),
-      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='52' height='52' viewBox='0 0 24 24' fill='none' stroke='%23f9c7db' stroke-width='1' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12c.7 1 1.7 1 2.5 0s1.8-1 2.5 0 1.8 1 2.5 0 1.8-1 2.5 0 1.8 1 2.5 0 1.8-1 2.5 0'%3E%3C/path%3E%3Cpath d='M5 4c.7 1 1.7 1 2.5 0s1.8-1 2.5 0 1.8 1 2.5 0 1.8-1 2.5 0 1.8 1 2.5 0 1.8-1 2.5 0'%3E%3C/path%3E%3Cpath d='M5 20c.7 1 1.7 1 2.5 0s1.8-1 2.5 0 1.8 1 2.5 0 1.8-1 2.5 0 1.8 1 2.5 0 1.8-1 2.5 0'%3E%3C/path%3E%3C/svg%3E");
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='52' height='52' viewBox='0 0 24 24' fill='none' stroke='%23f9c7db' stroke-width='1' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12c.7 1 1.7 1 2.5 0s1.8-1 2.5 0 1.8 1 2.5 0 1.8-1 2.5 0 1.8 1 2.5 0 1.8-1 2.5 0 1.8-1 2.5 0 1.8-1 2.5 0 1.8-1 2.5 0'%3E%3C/path%3E%3Cpath d='M5 4c.7 1 1.7 1 2.5 0s1.8-1 2.5 0 1.8 1 2.5 0 1.8-1 2.5 0 1.8 1 2.5 0 1.8-1 2.5 0'%3E%3C/path%3E%3Cpath d='M5 20c.7 1 1.7 1 2.5 0s1.8-1 2.5 0 1.8 1 2.5 0 1.8-1 2.5 0 1.8 1 2.5 0 1.8-1 2.5 0'%3E%3C/path%3E%3C/svg%3E");
     background-size: 100% 100%, 80px 80px, 120px 120px;
     background-position: 0 0, 20px 40px, 100px 80px;
     opacity: 0.7;
