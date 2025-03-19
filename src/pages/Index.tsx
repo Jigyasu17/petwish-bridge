@@ -4,6 +4,7 @@ import { useSearchParams } from 'react-router-dom';
 import Hero from '../components/Hero';
 import PetGrid from '../components/PetGrid';
 import Footer from '../components/Footer';
+import Testimonials from '../components/Testimonials';
 import { Pet } from '../components/PetCard';
 import { motion } from 'framer-motion';
 
@@ -177,6 +178,9 @@ const Index = () => {
           </div>
         </div>
       </motion.section>
+      
+      {/* Add the new Testimonials section */}
+      <Testimonials />
       
       {/* Awareness Banner */}
       <section className="py-16 bg-gray-50">
