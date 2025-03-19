@@ -1,207 +1,295 @@
-
 import React, { useState, useEffect } from 'react';
-import { useSearchParams } from 'react-router-dom';
-import Hero from '../components/Hero';
-import PetGrid from '../components/PetGrid';
-import Footer from '../components/Footer';
-import Testimonials from '../components/Testimonials';
-import { Pet } from '../components/PetCard';
-import { motion } from 'framer-motion';
+import { useSearchParams } from "react-router-dom";
+import { motion } from "framer-motion";
+import Hero from "../components/Hero";
+import PetGrid from "../components/PetGrid";
+import Testimonials from "../components/Testimonials";
+import PetInfoSection from "../components/PetInfo/PetInfoSection";
+import { useAuth } from '../context/AuthContext';
 
-// Mock data for the pet listings
-const mockPets: Pet[] = [
+// Mock data for featured pets
+const featuredPets = [
   {
-    id: '1',
-    name: 'Max',
-    images: [
-      'https://images.unsplash.com/photo-1543466835-00a7907e9de1?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1074&q=80',
-      'https://images.unsplash.com/photo-1583337130417-3346a1be7dee?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1064&q=80'
-    ],
-    age: '2 years',
-    breed: 'Golden Retriever',
-    location: 'San Francisco, CA',
-    category: 'Dogs'
+    id: "1",
+    name: "Max",
+    breed: "Golden Retriever",
+    age: "2 years",
+    location: "New York, NY",
+    category: "Dogs",
+    images: ["https://images.unsplash.com/photo-1552053831-71594a27632d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1624&q=80"],
   },
   {
-    id: '2',
-    name: 'Luna',
-    images: [
-      'https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1043&q=80',
-      'https://images.unsplash.com/photo-1526336024174-e58f5cdd8e13?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=987&q=80'
-    ],
-    age: '1 year',
-    breed: 'Domestic Shorthair',
-    location: 'Los Angeles, CA',
-    category: 'Cats'
+    id: "2",
+    name: "Bella",
+    breed: "Siamese",
+    age: "1 year",
+    location: "Los Angeles, CA",
+    category: "Cats",
+    images: ["https://images.unsplash.com/photo-1543852786-1cf6624b9987?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80"],
   },
   {
-    id: '3',
-    name: 'Charlie',
-    images: [
-      'https://images.unsplash.com/photo-1535591273668-578e31182c4f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1160&q=80',
-      'https://images.unsplash.com/photo-1583337130417-3346a1be7dee?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1064&q=80'
-    ],
-    age: '3 years',
-    breed: 'Labrador',
-    location: 'New York, NY',
-    category: 'Fish'
+    id: "3",
+    name: "Charlie",
+    breed: "Parakeet",
+    age: "6 months",
+    location: "Chicago, IL",
+    category: "Birds",
+    images: ["https://images.unsplash.com/photo-1552728089-57bdde30beb3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1150&q=80"],
   },
   {
-    id: '4',
-    name: 'Bella',
-    images: [
-      'https://images.unsplash.com/photo-1543852786-1cf6624b9987?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=987&q=80',
-      'https://images.unsplash.com/photo-1548802673-380ab8ebc7b7?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2340&q=80'
-    ],
-    age: '6 months',
-    breed: 'Siamese',
-    location: 'Chicago, IL',
-    category: 'Cats'
+    id: "4",
+    name: "Lucy",
+    breed: "Goldfish",
+    age: "1 year",
+    location: "Miami, FL",
+    category: "Fish",
+    images: ["https://images.unsplash.com/photo-1520302519317-d43bd0c59b7d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80"],
   },
   {
-    id: '5',
-    name: 'Rocky',
-    images: [
-      'https://images.unsplash.com/photo-1598875184988-5e67b1a874b8?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1160&q=80',
-      'https://images.unsplash.com/photo-1583337130417-3346a1be7dee?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1064&q=80'
-    ],
-    age: '4 years',
-    breed: 'Bulldog',
-    location: 'Miami, FL',
-    category: 'Dogs'
+    id: "5",
+    name: "Oliver",
+    breed: "Dwarf Rabbit",
+    age: "2 years",
+    location: "Austin, TX",
+    category: "Rabbits",
+    images: ["https://images.unsplash.com/photo-1454949176113-dabe8797367c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=871&q=80"],
   },
   {
-    id: '6',
-    name: 'Oliver',
-    images: [
-      'https://images.unsplash.com/photo-1548546738-8509cb246ed3?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=987&q=80',
-      'https://images.unsplash.com/photo-1536590158209-e9d615d525e4?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2340&q=80'
-    ],
-    age: '1 year',
-    breed: 'Maine Coon',
-    location: 'Seattle, WA',
-    category: 'Cats'
+    id: "6",
+    name: "Coco",
+    breed: "Guinea Pig",
+    age: "1 year",
+    location: "Seattle, WA",
+    category: "Other",
+    images: ["https://images.unsplash.com/photo-1535590069402-801818af5cc3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=864&q=80"],
   },
-  {
-    id: '7',
-    name: 'Daisy',
-    images: [
-      'https://images.unsplash.com/photo-1583337130417-3346a1be7dee?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1064&q=80',
-      'https://images.unsplash.com/photo-1598875706250-21faaf804361?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2340&q=80'
-    ],
-    age: '5 years',
-    breed: 'Poodle',
-    location: 'Dallas, TX',
-    category: 'Dogs'
-  },
-  {
-    id: '8',
-    name: 'Milo',
-    images: [
-      'https://images.unsplash.com/photo-1592194996308-7b43878e84a6?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=987&q=80',
-      'https://images.unsplash.com/photo-1618826411640-d6df44dd3f7a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=987&q=80'
-    ],
-    age: '2 years',
-    breed: 'Bengal',
-    location: 'Boston, MA',
-    category: 'Cats'
-  }
 ];
 
+// More pets data for the grid
+const morePets = [
+    {
+        id: "7",
+        name: "Buddy",
+        breed: "Labrador Retriever",
+        age: "3 years",
+        location: "Denver, CO",
+        category: "Dogs",
+        images: ["https://images.unsplash.com/photo-1517849845537-4d257902454a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1770&q=80"],
+    },
+    {
+        id: "8",
+        name: "Smokey",
+        breed: "Persian",
+        age: "4 years",
+        location: "Portland, OR",
+        category: "Cats",
+        images: ["https://images.unsplash.com/photo-1574158622682-e40e69881006?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1480&q=80"],
+    },
+    {
+        id: "9",
+        name: "Kiwi",
+        breed: "Cockatiel",
+        age: "1 year",
+        location: "San Francisco, CA",
+        category: "Birds",
+        images: ["https://images.unsplash.com/photo-1616625449499-c03771499087?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80"],
+    },
+    {
+        id: "10",
+        name: "Nemo",
+        breed: "Clownfish",
+        age: "6 months",
+        location: "San Diego, CA",
+        category: "Fish",
+        images: ["https://images.unsplash.com/photo-1568571455924-c2854d65abe9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1974&q=80"],
+    },
+    {
+        id: "11",
+        name: "Thumper",
+        breed: "Dutch Rabbit",
+        age: "1.5 years",
+        location: "Las Vegas, NV",
+        category: "Rabbits",
+        images: ["https://images.unsplash.com/photo-1604228859304-85e43f729051?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80"],
+    },
+    {
+        id: "12",
+        name: "Patches",
+        breed: "Hamster",
+        age: "8 months",
+        location: "Phoenix, AZ",
+        category: "Other",
+        images: ["https://images.unsplash.com/photo-1573879432980-f7b95c42f998?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1931&q=80"],
+    },
+    {
+        id: "13",
+        name: "Rocky",
+        breed: "Boxer",
+        age: "2.5 years",
+        location: "Dallas, TX",
+        category: "Dogs",
+        images: ["https://images.unsplash.com/photo-1583511655826-05700d52f4d9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1740&q=80"],
+    },
+    {
+        id: "14",
+        name: "Cleo",
+        breed: "Maine Coon",
+        age: "3 years",
+        location: "Atlanta, GA",
+        category: "Cats",
+        images: ["https://images.unsplash.com/photo-1583302438814-98801b298e95?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=735&q=80"],
+    },
+    {
+        id: "15",
+        name: "Rio",
+        breed: "Macaw",
+        age: "5 years",
+        location: "Orlando, FL",
+        category: "Birds",
+        images: ["https://images.unsplash.com/photo-1603431415463-7ccced46c013?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1974&q=80"],
+    },
+    {
+        id: "16",
+        name: "Bubbles",
+        breed: "Betta Fish",
+        age: "9 months",
+        location: "Houston, TX",
+        category: "Fish",
+        images: ["https://images.unsplash.com/photo-1622423427444-a79848b0923c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80"],
+    },
+    {
+        id: "17",
+        name: "Snowball",
+        breed: "Angora Rabbit",
+        age: "2 years",
+        location: "Minneapolis, MN",
+        category: "Rabbits",
+        images: ["https://images.unsplash.com/photo-1564855078188-fca9f9a122dd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1974&q=80"],
+    },
+    {
+        id: "18",
+        name: "Nibbles",
+        breed: "Chinchilla",
+        age: "1.5 years",
+        location: "St. Louis, MO",
+        category: "Other",
+        images: ["https://images.unsplash.com/photo-1623247373843-1ca939993824?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1974&q=80"],
+    }
+];
+
+// Animation variants
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
+    },
+  },
+};
+
+const childVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      type: "spring",
+      stiffness: 100,
+      damping: 15,
+    },
+  },
+};
+
 const Index = () => {
-  const [pets] = useState<Pet[]>(mockPets);
   const [searchParams] = useSearchParams();
-  const [filteredPets, setFilteredPets] = useState<Pet[]>(mockPets);
-  
-  // Get search query and category from URL params
-  const searchQuery = searchParams.get('search') || '';
-  const categoryFilter = searchParams.get('category') || '';
-  
-  // Filter pets when search query or category changes
+  const [pets, setPets] = useState(featuredPets);
+  const [filteredPets, setFilteredPets] = useState(pets);
+  const { user } = useAuth();
+
   useEffect(() => {
-    let filtered = [...pets];
+    // Load more pets
+    const allPets = [...featuredPets, ...morePets];
+    setPets(allPets);
+    setFilteredPets(allPets);
     
-    // Apply search filter if exists
-    if (searchQuery) {
-      const lowercaseQuery = searchQuery.toLowerCase();
+    // Apply filters from URL if present
+    const category = searchParams.get("category");
+    const search = searchParams.get("search");
+    
+    if (category || search) {
+      filterPets(allPets, category, search);
+    }
+  }, [searchParams]);
+
+  const filterPets = (petList: any[], category: string | null, searchQuery: string | null) => {
+    let filtered = [...petList];
+    
+    if (category) {
       filtered = filtered.filter(pet => 
-        pet.name.toLowerCase().includes(lowercaseQuery) ||
-        pet.breed.toLowerCase().includes(lowercaseQuery) ||
-        pet.category.toLowerCase().includes(lowercaseQuery) ||
-        pet.location.toLowerCase().includes(lowercaseQuery)
+        pet.category.toLowerCase() === category.toLowerCase()
       );
     }
     
-    // Apply category filter if exists
-    if (categoryFilter) {
-      filtered = filtered.filter(pet => 
-        pet.category.toLowerCase() === categoryFilter.toLowerCase()
+    if (searchQuery) {
+      filtered = filtered.filter(pet =>
+        pet.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        pet.breed.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        pet.location.toLowerCase().includes(searchQuery.toLowerCase())
       );
     }
     
     setFilteredPets(filtered);
-  }, [pets, searchQuery, categoryFilter]);
-  
+  };
+
   return (
-    <div className="min-h-screen">
+    <motion.div 
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.5 }}
+    >
       <Hero />
       
-      <motion.section 
-        className="py-16 md:py-24 bg-white"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.2, duration: 0.5 }}
-      >
-        <div className="container mx-auto px-4 md:px-6">
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-12">
-            <div>
-              <h2 className="text-3xl md:text-4xl font-display font-bold mb-3">Pets Available for Adoption</h2>
-              <p className="text-gray-600 max-w-2xl">
-                Find your perfect companion from our selection of lovable pets looking for their forever homes.
-              </p>
-            </div>
-            <div className="mt-4 md:mt-0">
-              {/* This could be expanded with more filtering options */}
-              <select className="py-2 px-4 border border-gray-200 rounded-md bg-white text-gray-800 text-sm">
-                <option value="newest">Newest First</option>
-                <option value="oldest">Oldest First</option>
-              </select>
-            </div>
+      <section className="py-16">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
+            <motion.h2 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2 }}
+              className="text-3xl md:text-4xl font-bold mb-4"
+            >
+              Pets Looking for a Home
+            </motion.h2>
+            <motion.p 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3 }}
+              className="text-gray-600 max-w-2xl mx-auto"
+            >
+              Browse our available pets and find your perfect companion. 
+              Each one is waiting for a loving home.
+            </motion.p>
           </div>
           
           <PetGrid pets={filteredPets} />
           
-          <div className="mt-12 text-center">
-            <button className="px-8 py-3 border border-primary text-primary rounded-full hover:bg-primary/5 font-medium transition-colors">
-              Load More Pets
-            </button>
-          </div>
-        </div>
-      </motion.section>
-      
-      {/* Add the new Testimonials section */}
-      <Testimonials />
-      
-      {/* Awareness Banner */}
-      <section className="py-16 bg-gray-50">
-        <div className="container mx-auto px-4 md:px-6">
-          <div className="bg-primary/10 rounded-3xl p-8 md:p-12 text-center max-w-4xl mx-auto">
-            <h3 className="text-2xl md:text-3xl font-display font-bold mb-4 text-gray-900">
-              Why Adopt, Not Shop?
-            </h3>
-            <p className="text-gray-700 mb-6 max-w-2xl mx-auto">
-              When you adopt, you save a loving animal from a shelter and make room for others. 
-              6.5 million pets enter shelters each year - your choice to adopt truly matters.
-            </p>
-            <button className="px-8 py-3 bg-primary text-white rounded-full hover:bg-primary/90 font-medium transition-colors">
-              Learn More
-            </button>
-          </div>
+          {filteredPets.length === 0 && (
+            <div className="text-center py-12">
+              <h3 className="text-xl font-semibold mb-2">No pets found</h3>
+              <p className="text-gray-600">Try adjusting your search criteria.</p>
+            </div>
+          )}
         </div>
       </section>
       
-      <Footer />
-    </div>
+      {/* Pet Information Section */}
+      <PetInfoSection />
+      
+      {/* Testimonials Section */}
+      <Testimonials />
+    </motion.div>
   );
 };
 
