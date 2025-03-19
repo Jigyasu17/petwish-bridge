@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
@@ -8,10 +8,11 @@ import { DialogTitle } from './ui/dialog';
 
 interface LoginFormProps {
   onClose?: () => void;
+  isLogin?: boolean;
 }
 
-const LoginForm = ({ onClose }: LoginFormProps) => {
-  const [isLogin, setIsLogin] = useState(true);
+const LoginForm = ({ onClose, isLogin: initialIsLogin = true }: LoginFormProps) => {
+  const [isLogin, setIsLogin] = useState(initialIsLogin);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
@@ -19,6 +20,11 @@ const LoginForm = ({ onClose }: LoginFormProps) => {
   const [error, setError] = useState<string | null>(null);
   
   const { login, signUp, signInWithGoogle } = useAuth();
+  
+  // Update isLogin state when prop changes
+  useEffect(() => {
+    setIsLogin(initialIsLogin);
+  }, [initialIsLogin]);
   
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -34,6 +40,7 @@ const LoginForm = ({ onClose }: LoginFormProps) => {
       if (onClose) onClose();
     } catch (err: any) {
       setError(err.message || 'An error occurred');
+      console.error('Auth error:', err);
     } finally {
       setIsLoading(false);
     }
@@ -46,6 +53,7 @@ const LoginForm = ({ onClose }: LoginFormProps) => {
       if (onClose) onClose();
     } catch (err: any) {
       setError(err.message || 'An error occurred with Google Sign In');
+      console.error('Google sign in error:', err);
     }
   };
   
@@ -170,18 +178,6 @@ const LoginForm = ({ onClose }: LoginFormProps) => {
           Sign in with Google
         </Button>
       </form>
-      
-      <div className="mt-6 text-center text-sm">
-        <button
-          type="button"
-          onClick={() => setIsLogin(!isLogin)}
-          className="text-primary hover:underline focus:outline-none"
-        >
-          {isLogin 
-            ? "Don't have an account? Sign up" 
-            : "Already have an account? Sign in"}
-        </button>
-      </div>
     </div>
   );
 };

@@ -31,6 +31,7 @@ const Auth = () => {
   const [selectedRole, setSelectedRole] = useState('adopter');
   const navigate = useNavigate();
   const { user } = useAuth();
+  const [activeTab, setActiveTab] = useState('login');
   
   // Redirect if already logged in
   React.useEffect(() => {
@@ -41,6 +42,10 @@ const Auth = () => {
 
   const handleRoleSelect = (value: string) => {
     setSelectedRole(value);
+  };
+
+  const handleTabChange = (value: string) => {
+    setActiveTab(value);
   };
 
   return (
@@ -78,16 +83,22 @@ const Auth = () => {
             </Select>
           </div>
           
-          <Tabs defaultValue="login" className="w-full">
+          <Tabs value={activeTab} onValueChange={handleTabChange} className="w-full">
             <TabsList className="grid w-full grid-cols-2">
               <TabsTrigger value="login">Login</TabsTrigger>
               <TabsTrigger value="signup">Sign Up</TabsTrigger>
             </TabsList>
             <TabsContent value="login">
-              <LoginForm onClose={() => navigate(`/dashboard/${selectedRole}`)} />
+              <LoginForm 
+                isLogin={true} 
+                onClose={() => navigate(`/dashboard/${selectedRole}`)} 
+              />
             </TabsContent>
             <TabsContent value="signup">
-              <LoginForm onClose={() => navigate(`/dashboard/${selectedRole}`)} />
+              <LoginForm 
+                isLogin={false} 
+                onClose={() => navigate(`/dashboard/${selectedRole}`)} 
+              />
             </TabsContent>
           </Tabs>
         </CardContent>
