@@ -4,7 +4,6 @@ import { useAuth } from '../context/AuthContext';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { LogIn, UserPlus, Mail } from 'lucide-react';
-import { DialogTitle } from './ui/dialog';
 
 interface LoginFormProps {
   onClose?: () => void;
@@ -59,7 +58,6 @@ const LoginForm = ({ onClose, isLogin: initialIsLogin = true }: LoginFormProps) 
   
   return (
     <div className="w-full max-w-md mx-auto p-6">
-      <DialogTitle className="sr-only">Authentication</DialogTitle>
       <div className="mb-6 text-center">
         <h2 className="text-2xl font-bold mb-2">{isLogin ? 'Sign In' : 'Create Account'}</h2>
         <p className="text-gray-600 text-sm">
